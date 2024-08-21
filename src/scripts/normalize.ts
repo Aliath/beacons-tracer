@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import { isSnapshotValid } from '@/lib/validate-snapshot';
-import { SnapshotItem } from '@/types/common';
+import { TraceItem } from '@/types/common';
 
 const TICK_TIME_IN_MS = 1000 / 30;
 
@@ -15,16 +15,16 @@ const readAndValidateData = async (fileName: string) => {
   return parsedData;
 };
 
-const getMaximumTimestamp = (data: SnapshotItem[]) => data.at(-1)!.timestamp;
+const getMaximumTimestamp = (data: TraceItem[]) => data.at(-1)!.timestamp;
 
-const createTicks = (data: SnapshotItem[]) => {
+const createTicks = (data: TraceItem[]) => {
   const ticks = Math.ceil(getMaximumTimestamp(data) / TICK_TIME_IN_MS) + 1;
   return [...Array(ticks).keys()].map((index) => ({
     timestamp: index * TICK_TIME_IN_MS,
   }));
 };
 
-const getInterpolatedPosition = (timestamp: number, data: SnapshotItem[]) => {
+const getInterpolatedPosition = (timestamp: number, data: TraceItem[]) => {
   const reversedData = [...data].reverse();
 
   const [minIndex, maxIndex] = [0, data.length - 1];
@@ -56,10 +56,17 @@ if (!filePath) {
 
 const data = await readAndValidateData(filePath);
 
-const ticks = createTicks(data);
-const output = ticks.map(({ timestamp }) => ({
-  ...getInterpolatedPosition(timestamp, data),
-  timestamp,
-}));
+const output = Object.fromEntries(
+  Object.entries(data).map(([assetIdentifier, assetTraces]) => {
+    const ticks = createTicks(assetTraces);
+
+    const tweakedTraces = ticks.map(({ timestamp }) => ({
+      ...getInterpolatedPosition(timestamp, assetTraces),
+      timestamp,
+    }));
+
+    return [assetIdentifier, tweakedTraces];
+  })
+);
 
 console.log(JSON.stringify(output, null, 4));

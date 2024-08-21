@@ -4,10 +4,13 @@ import useImage from 'use-image';
 import assetIcon from '@/assets/person.svg';
 import { usePositionComputings } from '@/hooks/use-position-computings';
 import { getScaledImage } from '@/lib/image-ratio';
-import jsonSample from '@/snapshots/2024-08-17T12:27:07.444Z.json';
+import snapshot from '@/snapshots/2024-08-17T12:27:07.444Z.json';
 
 const RADIUS = 20;
 const PADDING = 6;
+
+// @ts-expect-error TEMP code
+const jsonSample = snapshot['asset-0'];
 
 export function PlayerAsset() {
   const { fractionToScaled } = usePositionComputings();

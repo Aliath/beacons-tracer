@@ -1,9 +1,9 @@
 import { format } from 'date-fns/format';
 import { useAtom } from 'jotai';
 import { useRunOnce } from './use-run-once';
+import { getDateFromPath } from '@/lib/common';
 import { getAvailableSnapshots } from '@/lib/get-available-snapshots';
 import { snapshotsQueryAtom } from '@/lib/state';
-import { getDateFromPath } from '@/lib/utils';
 
 export const useAvailableSnapshots = ({
   onSnapshotsReady,

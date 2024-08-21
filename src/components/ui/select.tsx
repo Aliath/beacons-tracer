@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/common';
 import { CaretSortIcon, CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import * as SelectPrimitive from '@radix-ui/react-select';
-
 const Select = SelectPrimitive.Root;
 
 const SelectGroup = SelectPrimitive.Group;

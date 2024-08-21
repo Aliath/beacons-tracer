@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { useAvailableSnapshots } from '@/hooks/use-available-snapshots';
 import { useCurrentSnapshot } from '@/hooks/use-current-snapshot';
-import { groupBy } from '@/lib/utils';
+import { groupBy } from '@/lib/common';
 
 export function SnapshotSelector() {
   const { currentPath, onPathChange } = useCurrentSnapshot();

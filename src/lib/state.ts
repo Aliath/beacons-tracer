@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 import { DEFAULT_SPEED, SPEED_LEVELS } from '@/constants/player';
-import { SnapshotItem } from '@/types/common';
+import { TraceItem } from '@/types/common';
 
 export const stageSizeAtom = atom({ width: 0, height: 0 });
 export const backgroundSizeAtom = atom({ width: 0, height: 0 });
@@ -13,7 +13,7 @@ export const snapshotsQueryAtom = atom<
       initialized: true;
       snapshots: {
         path: string;
-        data: SnapshotItem[];
+        data: Record<string, TraceItem[]>;
       }[];
     }
 >({ initialized: false, snapshots: null });
