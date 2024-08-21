@@ -3,6 +3,7 @@ import { PlayerAsset } from './player-asset';
 import { PlayerSpeed } from './player-speed';
 import { PlayerStage } from './player-stage';
 import { PlayerTrack } from './player-track';
+import { SmoothSwitch } from './smooth-switch';
 import { SnapshotSelector } from './snapshot-selector';
 import { PlayerTicker } from '@/components/operational/player-ticker';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
@@ -19,6 +20,8 @@ export function TracePlayer() {
           <SnapshotSelector />
           <div className="h-px w-full bg-input" />
           <PlayerSpeed />
+          <div className="h-px w-full bg-input" />
+          <SmoothSwitch />
           <div className="h-px w-full bg-input" />
           <LowpassFilter />
           <div className="h-px w-full bg-input" />

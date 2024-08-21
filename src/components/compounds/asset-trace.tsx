@@ -2,7 +2,8 @@ import { useMemo } from 'react';
 import { Line } from 'react-konva';
 import { useAtom } from 'jotai';
 import { usePositionComputings } from '@/hooks/use-position-computings';
-import { simulationTimestamp } from '@/lib/state';
+import { useTraceSmooth } from '@/hooks/use-trace-smooth';
+import { simulationTimestampAtom } from '@/lib/state';
 import { getPathInterpolator, getTimestampIndex } from '@/lib/trace';
 import { TraceItem } from '@/types/common';
 
@@ -17,10 +18,11 @@ export function AssetTrace({
   traceDuration?: number;
   color: [number, number, number];
 }) {
-  const [timestamp] = useAtom(simulationTimestamp);
+  const [timestamp] = useAtom(simulationTimestampAtom);
   const { fractionToScaled } = usePositionComputings();
+  const { smoothTrace } = useTraceSmooth();
 
-  const pathInterpolator = useMemo(() => getPathInterpolator(traces, true), [traces]);
+  const pathInterpolator = useMemo(() => getPathInterpolator(traces, smoothTrace), [smoothTrace, traces]);
 
   const segmentLength = traceDuration / (POINTS_IN_TRACE - 1);
   const points = [...Array(POINTS_IN_TRACE).keys()].flatMap((index) => {

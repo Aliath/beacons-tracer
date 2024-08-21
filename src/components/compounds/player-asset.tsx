@@ -5,9 +5,10 @@ import useImage from 'use-image';
 import { AssetTrace } from './asset-trace';
 import assetIcon from '@/assets/person.svg';
 import { usePositionComputings } from '@/hooks/use-position-computings';
+import { useTraceSmooth } from '@/hooks/use-trace-smooth';
 import { getRandomColor } from '@/lib/common';
 import { getScaledImage } from '@/lib/image-ratio';
-import { simulationTimestamp } from '@/lib/state';
+import { simulationTimestampAtom } from '@/lib/state';
 import { getPathInterpolator, getTimestampIndex } from '@/lib/trace';
 import { TraceItem } from '@/types/common';
 
@@ -18,10 +19,11 @@ const MAX_SIZE = BIG_RADIUS * 2 - 2 * PADDING;
 export function PlayerAsset({ traces }: { traces: TraceItem[] }) {
   const { fractionToScaled } = usePositionComputings();
   const [icon] = useImage(assetIcon);
-  const [timestamp] = useAtom(simulationTimestamp);
+  const [timestamp] = useAtom(simulationTimestampAtom);
   const color = useMemo(() => getRandomColor(), []);
+  const { smoothTrace } = useTraceSmooth();
 
-  const pathInterpolator = useMemo(() => getPathInterpolator(traces, true), [traces]);
+  const pathInterpolator = useMemo(() => getPathInterpolator(traces, smoothTrace), [smoothTrace, traces]);
   const index = getTimestampIndex(traces, timestamp);
   const position = pathInterpolator(index);
 

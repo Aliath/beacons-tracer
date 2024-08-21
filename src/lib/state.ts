@@ -18,4 +18,5 @@ export const snapshotsQueryAtom = atom<
     }
 >({ initialized: false, snapshots: null });
 
-export const simulationTimestamp = atom(0);
+export const simulationTimestampAtom = atom(0);
+export const smoothTraceAtom = atom(true);

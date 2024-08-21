@@ -1,9 +1,9 @@
 import { useAtom } from 'jotai';
 import { useRunOnce } from './use-run-once';
-import { simulationTimestamp } from '@/lib/state';
+import { simulationTimestampAtom } from '@/lib/state';
 
 export const usePlayerTicker = () => {
-  const [, setTimestamp] = useAtom(simulationTimestamp);
+  const [, setTimestamp] = useAtom(simulationTimestampAtom);
 
   useRunOnce(() => {
     let animationFrame: number;
