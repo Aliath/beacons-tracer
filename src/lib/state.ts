@@ -17,3 +17,5 @@ export const snapshotsQueryAtom = atom<
       }[];
     }
 >({ initialized: false, snapshots: null });
+
+export const simulationTimestamp = atom(0);

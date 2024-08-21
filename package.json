@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
     "test": "vitest",
-    "test:dev": "vitest --watch"
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "@fontsource/inter": "^5.0.20",
@@ -25,12 +25,14 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "iwanthue": "^2.0.0",
     "jotai": "^2.9.3",
     "konva": "^9.3.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-konva": "^18.2.10",
     "react-resizable-panels": "^2.1.0",
+    "smooth.ts": "^0.0.6",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "use-image": "^1.1.1"

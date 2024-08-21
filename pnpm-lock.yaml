@@ -41,6 +41,9 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      iwanthue:
+        specifier: ^2.0.0
+        version: 2.0.0
       jotai:
         specifier: ^2.9.3
         version: 2.9.3(@types/react@18.3.3)(react@18.3.1)
@@ -59,6 +62,9 @@ importers:
       react-resizable-panels:
         specifier: ^2.1.0
         version: 2.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      smooth.ts:
+        specifier: ^0.0.6
+        version: 0.0.6
       tailwind-merge:
         specifier: ^2.5.2
         version: 2.5.2
@@ -1632,6 +1638,9 @@ packages:
     peerDependencies:
       react: '>=18.0'
 
+  iwanthue@2.0.0:
+    resolution: {integrity: sha512-baARnKbEygsic78ekXFxvEfVyiWPchkeoUYy6StEhjF4ayCanBZQhEiXlzPXIUXtgVCYyvwex0dnw1Ghg8UCCg==}
+
   jackspeak@3.4.3:
     resolution: {integrity: sha512-OGlZQpz2yfahA/Rd1Y8Cd9SIEsqvXkLVoSw/cgwhnhFMDbsQFeZYoJJ7bIZBS9BcamUW96asq/npPWugM+RQBw==}
 
@@ -1801,6 +1810,9 @@ packages:
   object.values@1.2.0:
     resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
     engines: {node: '>= 0.4'}
+
+  obliterator@2.0.4:
+    resolution: {integrity: sha512-lgHwxlxV1qIg1Eap7LgIeoBWIMFibOjbrYPIPJZcI1mmGAI2m3lNYpK12Y+GBdPQ0U1hRwSord7GIaawz962qQ==}
 
   onetime@6.0.0:
     resolution: {integrity: sha512-1FlR+gjXK7X+AsAHso35MnyN5KqGwJRi/31ft6x0M194ht7S+rWAvd7PHss9xSKMzE0asv1pyIHaJYq+BbacAQ==}
@@ -2073,6 +2085,9 @@ packages:
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+
+  smooth.ts@0.0.6:
+    resolution: {integrity: sha512-s9V39sqharjbm6O8R8oqvnN30N7fhbNscX3rH67kLW4VbBrD4ughvaodBTb/F3nsZgXKMOuaw/NGNyI6MZgbSQ==}
 
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
@@ -3894,6 +3909,10 @@ snapshots:
       '@types/react-reconciler': 0.28.8
       react: 18.3.1
 
+  iwanthue@2.0.0:
+    dependencies:
+      obliterator: 2.0.4
+
   jackspeak@3.4.3:
     dependencies:
       '@isaacs/cliui': 8.0.2
@@ -4038,6 +4057,8 @@ snapshots:
       call-bind: 1.0.7
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
+
+  obliterator@2.0.4: {}
 
   onetime@6.0.0:
     dependencies:
@@ -4307,6 +4328,8 @@ snapshots:
   signal-exit@4.1.0: {}
 
   slash@3.0.0: {}
+
+  smooth.ts@0.0.6: {}
 
   source-map-js@1.2.0: {}
 
