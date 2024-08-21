@@ -1,16 +1,20 @@
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import { Image, Layer, Stage } from "react-konva";
-import useImage from "use-image";
-import mapSource from "@/assets/map.svg";
-import { getScaledImage } from "@/lib/image-ratio";
-import { useAtom } from "jotai";
-import { backgroundSizeAtom, stageSizeAtom } from "@/lib/state";
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { Image, Layer, Stage } from 'react-konva';
+import { useAtom } from 'jotai';
+import useImage from 'use-image';
+import mapSource from '@/assets/map.svg';
+import { usePositionComputings } from '@/hooks/use-position-computings';
+import { getScaledImage } from '@/lib/image-ratio';
+import { backgroundSizeAtom, stageSizeAtom } from '@/lib/state';
+
+const SAMPLE_RECORDS: { x: number; y: number; timestamp: number }[] = [];
 
 export function PlayerStage({ children }: { children: React.ReactNode }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [backgroundImage] = useImage(mapSource);
   const [playerSize, setPlayerSize] = useAtom(stageSizeAtom);
   const [, setBackgroundSize] = useAtom(backgroundSizeAtom);
+  const { scaledToFraction } = usePositionComputings();
 
   useLayoutEffect(() => {
     const targetElement = wrapperRef.current!;
@@ -45,18 +49,37 @@ export function PlayerStage({ children }: { children: React.ReactNode }) {
     setBackgroundSize(backgroundSize);
   }, [backgroundSize, setBackgroundSize]);
 
+  const shiftX = (playerSize.width - backgroundSize.width) / 2;
+  const shiftY = (playerSize.height - backgroundSize.height) / 2;
+
   return (
     <div className="flex-1 bg-muted/40" ref={wrapperRef}>
       {playerSize && (
-        <Stage width={playerSize.width} height={playerSize.height}>
-          <Layer>
-            <Image
-              x={(playerSize.width - backgroundSize.width) / 2}
-              y={(playerSize.height - backgroundSize.height) / 2}
-              width={backgroundSize.width}
-              height={backgroundSize.height}
-              image={backgroundImage}
-            />
+        <Stage
+          width={playerSize.width}
+          height={playerSize.height}
+          onClick={(event) => {
+            console.log(
+              scaledToFraction({
+                x: event.evt.offsetX - shiftX,
+                y: event.evt.offsetY - shiftY,
+              })
+            );
+
+            SAMPLE_RECORDS.push({
+              ...scaledToFraction({
+                x: event.evt.offsetX - shiftX,
+                y: event.evt.offsetY - shiftY,
+              }),
+              timestamp: performance.now(),
+            });
+
+            // @ts-expect-error This is  temporary trick, won't stay forever.
+            window['SAMPLE_RECORDS'] = SAMPLE_RECORDS;
+          }}
+        >
+          <Layer x={shiftX} y={shiftY}>
+            <Image width={backgroundSize.width} height={backgroundSize.height} image={backgroundImage} />
 
             {children}
           </Layer>

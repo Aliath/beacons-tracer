@@ -6,37 +6,38 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useState } from "react";
-
-const options = [
-  { label: "August 8, 1:32pm", value: "1", group: "August 8" },
-  { label: "August 8, 1:50pm", value: "2", group: "August 8" },
-  { label: "August 9, 2:17am", value: "3", group: "August 9" },
-];
+} from '@/components/ui/select';
+import { useAvailableSnapshots } from '@/hooks/use-available-snapshots';
+import { useCurrentSnapshot } from '@/hooks/use-current-snapshot';
+import { groupBy } from '@/lib/utils';
 
 export function SnapshotSelector() {
-  const [selectedValue, setSelectedValue] = useState(options[0].value);
-  const selectedOption = options.find(({ value }) => value === selectedValue)!;
+  const { currentPath, onPathChange } = useCurrentSnapshot();
+  const { snapshotOptions } = useAvailableSnapshots({
+    onSnapshotsReady: ([{ path }]) => {
+      onPathChange(path);
+    },
+  });
 
-  const optionsByGroup = options.reduce<
-    Record<string, (typeof options)[number][]>
-  >((result, item) => {
-    if (!(item.group in result)) {
-      return { ...result, [item.group]: [item] };
-    }
+  const selectedOption = snapshotOptions.find(({ value }) => value === currentPath);
 
-    return { ...result, [item.group]: [...result[item.group], item] };
-  }, {});
+  const optionsByGroup = groupBy(snapshotOptions, ({ group }) => group);
 
   return (
     <div className="p-4">
-      <Select value={selectedValue} onValueChange={setSelectedValue}>
+      <Select value={currentPath ?? undefined} onValueChange={onPathChange}>
         <SelectTrigger>
-          <SelectValue className="test">
+          <SelectValue
+            placeholder={
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-muted-foreground/60">Snapshot:</span>
+                N/A
+              </div>
+            }
+          >
             <div className="flex items-center justify-between gap-2">
               <span className="text-muted-foreground/60">Snapshot:</span>
-              {selectedOption.label}
+              {selectedOption?.label}
             </div>
           </SelectValue>
         </SelectTrigger>

@@ -1,14 +1,10 @@
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
-import { LowpassFilter } from "./lowpass-filter";
-import { PlayerSpeed } from "./player-speed";
-import { PlayerTrack } from "./player-track";
-import { SnapshotSelector } from "./snapshot-selector";
-import { PlayerStage } from "./player-stage";
-import { PlayerAsset } from "./player-asset";
+import { LowpassFilter } from './lowpass-filter';
+import { PlayerAsset } from './player-asset';
+import { PlayerSpeed } from './player-speed';
+import { PlayerStage } from './player-stage';
+import { PlayerTrack } from './player-track';
+import { SnapshotSelector } from './snapshot-selector';
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 
 export function TracePlayer() {
   return (

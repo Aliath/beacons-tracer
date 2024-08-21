@@ -1,10 +1,9 @@
-import { Slider } from "@/components/ui/slider";
-import { useState } from "react";
-
-const SPEED_LEVELS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 2];
+import { Slider } from '@/components/ui/slider';
+import { SPEED_LEVELS } from '@/constants/player';
+import { usePlayerSpeed } from '@/hooks/use-player-speed';
 
 export function PlayerSpeed() {
-  const [value, setValue] = useState(Math.floor(SPEED_LEVELS.length / 2));
+  const { playerSpeed, onSpeedChange } = usePlayerSpeed();
 
   return (
     <div className="p-4 flex items-center gap-4 text-sm">
@@ -13,12 +12,10 @@ export function PlayerSpeed() {
         min={0}
         max={SPEED_LEVELS.length - 1}
         step={1}
-        value={[value]}
-        onValueChange={([value]) => setValue(value)}
+        value={[SPEED_LEVELS.indexOf(playerSpeed)]}
+        onValueChange={([value]) => onSpeedChange(SPEED_LEVELS[value])}
       />
-      <span className="inline-block min-w-8 text-right">
-        {SPEED_LEVELS[value]}x
-      </span>
+      <span className="inline-block min-w-8 text-right">{playerSpeed}x</span>
     </div>
   );
 }
