@@ -1,17 +1,39 @@
+import { useEffect, useRef } from 'react';
 import { useAtom } from 'jotai';
-import { useRunOnce } from './use-run-once';
+import { useCurrentSnapshot } from './use-current-snapshot';
+import { usePlayerControls } from './use-player-controls';
+import { usePlayerSpeed } from './use-player-speed';
+import { getSnapshotTimespan } from '@/lib/snapshot';
 import { simulationTimestampAtom } from '@/lib/state';
 
 export const usePlayerTicker = () => {
   const [, setTimestamp] = useAtom(simulationTimestampAtom);
+  const previousTick = useRef(performance.now());
+  const { playerSpeed } = usePlayerSpeed();
+  const { playerState, pause } = usePlayerControls();
+  const { currentSnapshot } = useCurrentSnapshot();
+  const { min, max } = getSnapshotTimespan(currentSnapshot?.data || {});
 
-  useRunOnce(() => {
+  useEffect(() => {
     let animationFrame: number;
 
     const render = (tick: number) => {
       animationFrame = requestAnimationFrame(render);
 
-      setTimestamp(tick);
+      const tickDifference = tick - previousTick.current;
+      previousTick.current = tick;
+
+      if (playerState === 'playing') {
+        setTimestamp((currentTimestamp) => {
+          const nextResult = Math.max(min, Math.min(max, currentTimestamp + tickDifference * playerSpeed));
+
+          if (nextResult >= max) {
+            pause();
+          }
+
+          return nextResult;
+        });
+      }
     };
 
     animationFrame = requestAnimationFrame(render);
@@ -19,5 +41,5 @@ export const usePlayerTicker = () => {
     return () => {
       cancelAnimationFrame(animationFrame);
     };
-  });
+  }, [max, min, pause, playerSpeed, playerState, setTimestamp]);
 };

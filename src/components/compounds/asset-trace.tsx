@@ -2,28 +2,23 @@ import { useMemo } from 'react';
 import { Line } from 'react-konva';
 import { useAtom } from 'jotai';
 import { usePositionComputings } from '@/hooks/use-position-computings';
+import { useTraceDuration } from '@/hooks/use-trace-duration';
 import { useTraceSmooth } from '@/hooks/use-trace-smooth';
 import { simulationTimestampAtom } from '@/lib/state';
 import { getPathInterpolator, getTimestampIndex } from '@/lib/trace';
 import { TraceItem } from '@/types/common';
 
-const POINTS_IN_TRACE = 100;
+const POINTS_PER_SECOND = 20;
 
-export function AssetTrace({
-  traces,
-  traceDuration = 2_500,
-  color,
-}: {
-  traces: TraceItem[];
-  traceDuration?: number;
-  color: [number, number, number];
-}) {
+export function AssetTrace({ traces, color }: { traces: TraceItem[]; color: [number, number, number] }) {
   const [timestamp] = useAtom(simulationTimestampAtom);
   const { fractionToScaled } = usePositionComputings();
   const { smoothTrace } = useTraceSmooth();
+  const { traceDuration } = useTraceDuration();
 
   const pathInterpolator = useMemo(() => getPathInterpolator(traces, smoothTrace), [smoothTrace, traces]);
 
+  const POINTS_IN_TRACE = (traceDuration / 1000) * POINTS_PER_SECOND;
   const segmentLength = traceDuration / (POINTS_IN_TRACE - 1);
   const points = [...Array(POINTS_IN_TRACE).keys()].flatMap((index) => {
     const pointTimestamp = timestamp - traceDuration + segmentLength * index;

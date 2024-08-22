@@ -1,18 +1,12 @@
 import { useAtom } from 'jotai';
-import { currentSnapshotPathAtom, snapshotsQueryAtom } from '@/lib/state';
+import { useAvailableSnapshots } from './use-available-snapshots';
+import { currentSnapshotPathAtom } from '@/lib/state';
 
 export const useCurrentSnapshot = () => {
   const [currentPath, setCurrentPath] = useAtom(currentSnapshotPathAtom);
-  const [snapshots] = useAtom(snapshotsQueryAtom);
+  const { snapshotsByPath } = useAvailableSnapshots();
 
-  const onPathChange = (path: string) => {
-    // place for side effects
+  const currentSnapshot = snapshotsByPath[currentPath || ''] as (typeof snapshotsByPath)[string] | undefined;
 
-    setCurrentPath(path);
-  };
-
-  const snapshotsData = snapshots.initialized ? snapshots.snapshots : [];
-  const currentSnapshot = snapshotsData.find(({ path }) => path === currentPath);
-
-  return { currentPath, currentSnapshot, onPathChange };
+  return { currentPath, setCurrentPath, currentSnapshot };
 };

@@ -9,13 +9,28 @@ import {
 } from '@/components/ui/select';
 import { useAvailableSnapshots } from '@/hooks/use-available-snapshots';
 import { useCurrentSnapshot } from '@/hooks/use-current-snapshot';
+import { usePlayerControls } from '@/hooks/use-player-controls';
+import { usePlayerTime } from '@/hooks/use-player-time';
 import { groupBy } from '@/lib/common';
+import { getSnapshotTimespan } from '@/lib/snapshot';
+import { TraceItem } from '@/types/common';
 
 export function SnapshotSelector() {
-  const { currentPath, onPathChange } = useCurrentSnapshot();
-  const { snapshotOptions } = useAvailableSnapshots({
-    onSnapshotsReady: ([{ path }]) => {
-      onPathChange(path);
+  const { currentPath, setCurrentPath } = useCurrentSnapshot();
+  const { play } = usePlayerControls();
+  const { onSimulationTimeChange } = usePlayerTime();
+
+  const selectSnapshot = ({ path, data }: { data: Record<string, TraceItem[]>; path: string }) => {
+    const { min } = getSnapshotTimespan(data);
+
+    setCurrentPath(path);
+    onSimulationTimeChange(min);
+    play();
+  };
+
+  const { snapshotOptions, snapshotsByPath } = useAvailableSnapshots({
+    onSnapshotsReady: ([snapshot]) => {
+      selectSnapshot(snapshot);
     },
   });
 
@@ -25,7 +40,13 @@ export function SnapshotSelector() {
 
   return (
     <div className="p-4">
-      <Select value={currentPath ?? undefined} onValueChange={onPathChange}>
+      <Select
+        value={currentPath ?? undefined}
+        onValueChange={(newPath) => {
+          const newSnapshot = snapshotsByPath[newPath];
+          selectSnapshot(newSnapshot);
+        }}
+      >
         <SelectTrigger>
           <SelectValue
             placeholder={

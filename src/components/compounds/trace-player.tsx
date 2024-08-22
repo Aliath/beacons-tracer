@@ -1,10 +1,10 @@
 import { LowpassFilter } from './lowpass-filter';
 import { PlayerAsset } from './player-asset';
-import { PlayerSpeed } from './player-speed';
 import { PlayerStage } from './player-stage';
 import { PlayerTrack } from './player-track';
 import { SmoothSwitch } from './smooth-switch';
 import { SnapshotSelector } from './snapshot-selector';
+import { TraceDuration } from './trace-duration';
 import { PlayerTicker } from '@/components/operational/player-ticker';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import { useCurrentSnapshot } from '@/hooks/use-current-snapshot';
@@ -19,7 +19,7 @@ export function TracePlayer() {
         <ResizablePanel defaultSize={15} minSize={15} maxSize={50}>
           <SnapshotSelector />
           <div className="h-px w-full bg-input" />
-          <PlayerSpeed />
+          <TraceDuration />
           <div className="h-px w-full bg-input" />
           <SmoothSwitch />
           <div className="h-px w-full bg-input" />

@@ -40,7 +40,7 @@ export const useAvailableSnapshots = ({
     };
   });
 
-  const snapshotsByPath = Object.fromEntries(snapshotsData.map(({ path, data }) => [path, data]));
+  const snapshotsByPath = Object.fromEntries(snapshotsData.map((snapshot) => [snapshot.path, snapshot]));
 
   return { snapshotOptions, snapshotsByPath };
 };

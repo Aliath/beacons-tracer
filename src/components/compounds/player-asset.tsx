@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react';
-import { Circle, Group, Image } from 'react-konva';
+import { Circle, Group, Image, Label, Tag, Text } from 'react-konva';
 import { useAtom } from 'jotai';
 import useImage from 'use-image';
 import { AssetTrace } from './asset-trace';
@@ -41,6 +41,10 @@ export function PlayerAsset({ traces }: { traces: TraceItem[] }) {
       <AssetTrace traces={traces} color={color} />
       <Group {...fractionToScaled(position)}>
         <Circle radius={BIG_RADIUS} x={0} y={0} fill="#ffffff" stroke={`rgb(${color.join(',')})`} strokeWidth={2} />
+        <Label x={BIG_RADIUS * (2 - Math.sqrt(2)) - 2} y={BIG_RADIUS * (2 - Math.sqrt(2)) - 2}>
+          <Tag fill={`rgb(${color.join(',')})`} cornerRadius={4} />
+          <Text text="Asset" fill="#fff" padding={4} fontSize={12} fontStyle="500" fontFamily="Inter" />
+        </Label>
 
         <Group rotation={rotation * (180 / Math.PI)}>
           <Image
