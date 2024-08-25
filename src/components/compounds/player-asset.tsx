@@ -2,29 +2,32 @@ import { useMemo, useRef } from 'react';
 import { Circle, Group, Image, Label, Tag, Text } from 'react-konva';
 import { useAtom } from 'jotai';
 import useImage from 'use-image';
-import assetIcon from '@/assets/person.svg';
 import { usePositionComputings } from '@/hooks/use-position-computings';
 import { useTraceSmooth } from '@/hooks/use-trace-smooth';
+import { getAssetByIcon } from '@/lib/image-assets';
 import { getScaledImage } from '@/lib/image-ratio';
 import { simulationTimestampAtom } from '@/lib/state';
 import { getPathInterpolator, getTimestampIndex } from '@/lib/trace';
-import { TraceItem } from '@/lib/validate-snapshot';
+import { AssetIcon, TraceItem } from '@/lib/validate-snapshot';
 
 const BIG_RADIUS = 20;
 const PADDING = 8;
 const MAX_SIZE = BIG_RADIUS * 2 - 2 * PADDING;
+const DEFAULT_ICON = 'person-01';
 
 export function PlayerAsset({
   traces,
   color,
   name,
+  icon = DEFAULT_ICON,
 }: {
   traces: TraceItem[];
   color: [number, number, number];
   name: string;
+  icon?: AssetIcon;
 }) {
   const { fractionToScaled } = usePositionComputings();
-  const [icon] = useImage(assetIcon);
+  const [iconImage] = useImage(getAssetByIcon(icon));
   const [timestamp] = useAtom(simulationTimestampAtom);
   const { smoothTrace } = useTraceSmooth();
 
@@ -40,7 +43,7 @@ export function PlayerAsset({
 
   const imageSize = getScaledImage(
     { width: MAX_SIZE, height: MAX_SIZE },
-    { width: icon?.width || 0, height: icon?.height || 0 }
+    { width: iconImage?.width || 0, height: iconImage?.height || 0 }
   );
 
   return (
@@ -55,7 +58,7 @@ export function PlayerAsset({
         <Image
           x={-BIG_RADIUS + (MAX_SIZE - imageSize.width) / 2 + PADDING}
           y={-BIG_RADIUS + (MAX_SIZE - imageSize.height) / 2 + PADDING}
-          image={icon}
+          image={iconImage}
           {...imageSize}
         />
       </Group>

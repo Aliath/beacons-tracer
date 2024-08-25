@@ -59,18 +59,18 @@ describe('trace utils', () => {
       expect(getTimestampIndex(sampleData, between)).toBe(0.5);
     });
 
-    it('returns [0]-th element when timestamp is lower than left', () => {
+    it('returns [0] when timestamp is lower than left', () => {
       const [left, right] = [500, 1000];
       const sampleData = [{ timestamp: left }, { timestamp: right }];
 
-      expect(getTimestampIndex(sampleData, left - 1)).toBe(left);
+      expect(getTimestampIndex(sampleData, left - 1)).toBe(0);
     });
 
-    it('returns [-1]-th element when timestamp is higher than right', () => {
+    it('returns [length-1] when timestamp is higher than right', () => {
       const [left, right] = [500, 1000];
       const sampleData = [{ timestamp: left }, { timestamp: right }];
 
-      expect(getTimestampIndex(sampleData, right + 1)).toBe(right);
+      expect(getTimestampIndex(sampleData, right + 1)).toBe(1);
     });
   });
 

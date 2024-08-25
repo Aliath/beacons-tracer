@@ -19,7 +19,7 @@ export function TracePlayer() {
   const assetsData = useMemo(
     () =>
       Object.entries(currentSnapshot?.assets || {}).map(
-        ([assetIdentifier, traces]) => [assetIdentifier, { traces, color: getRandomColor() }] as const
+        ([assetIdentifier, data]) => [assetIdentifier, { data, color: getRandomColor() }] as const
       ),
     [currentSnapshot?.assets]
   );
@@ -44,18 +44,30 @@ export function TracePlayer() {
         <ResizableHandle withHandle />
 
         <ResizablePanel className="flex flex-col">
-          <PlayerStage>
+          <PlayerStage mapIcon={currentSnapshot?.map}>
             {(['traces', 'assets'] as const).map((type) => {
               if (type === 'assets') {
-                return assetsData.map(([identifier, { traces, color }]) => (
-                  <PlayerAsset key={identifier} name={identifier} traces={traces} color={color} />
-                ));
+                return assetsData.map(
+                  ([
+                    identifier,
+                    {
+                      data: { traces, icon },
+                      color,
+                    },
+                  ]) => <PlayerAsset icon={icon} key={identifier} name={identifier} traces={traces} color={color} />
+                );
               }
 
               if (type === 'traces') {
-                return assetsData.map(([identifier, { traces, color }]) => (
-                  <AssetTrace key={identifier} traces={traces} color={color} />
-                ));
+                return assetsData.map(
+                  ([
+                    identifier,
+                    {
+                      data: { traces },
+                      color,
+                    },
+                  ]) => <AssetTrace key={identifier} traces={traces} color={color} />
+                );
               }
             })}
           </PlayerStage>

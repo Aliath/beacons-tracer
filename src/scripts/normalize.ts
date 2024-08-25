@@ -56,11 +56,11 @@ if (!filePath) {
 const data = await readAndValidateData(filePath);
 
 const output = Object.fromEntries(
-  Object.entries(data.assets).map(([assetIdentifier, assetTraces]) => {
-    const ticks = createTicks(assetTraces);
+  Object.entries(data.assets).map(([assetIdentifier, { traces }]) => {
+    const ticks = createTicks(traces);
 
     const tweakedTraces = ticks.map(({ timestamp }) => ({
-      ...getInterpolatedPosition(timestamp, assetTraces),
+      ...getInterpolatedPosition(timestamp, traces),
       timestamp,
     }));
 

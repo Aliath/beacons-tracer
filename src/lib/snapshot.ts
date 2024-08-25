@@ -11,7 +11,9 @@ export const getSnapshotTimespan = (snapshot?: Snapshot) => {
     return { min: 0, max: 0 };
   }
 
-  const snapshotTimestamps = objectsToIterateOver.flatMap((assetTrace) => assetTrace.map(({ timestamp }) => timestamp));
+  const snapshotTimestamps = objectsToIterateOver.flatMap((assetTrace) =>
+    assetTrace.traces.map(({ timestamp }) => timestamp)
+  );
 
   return {
     min: Math.min(...snapshotTimestamps),
