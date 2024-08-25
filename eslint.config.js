@@ -42,6 +42,7 @@ export default tseslint.config(
           prefix: '@',
         },
       ],
+      'no-console': ['warn'],
     },
     settings: {
       // Optional: configure settings for import resolution if necessary

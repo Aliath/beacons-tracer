@@ -1,4 +1,4 @@
-import { isSnapshotValid } from './validate-snapshot';
+import { isSnapshotValid, Snapshot } from './validate-snapshot';
 
 export const getAvailableSnapshots = async () => {
   const snapshotMap = import.meta.glob('@/snapshots/*.json');
@@ -6,13 +6,13 @@ export const getAvailableSnapshots = async () => {
   return Promise.all(
     Object.entries(snapshotMap).map(async ([path, fetchSnapshot]) => {
       const importedModule = await fetchSnapshot();
-      const data = (importedModule as Record<'default', unknown>).default;
+      const snapshot = (importedModule as Record<'default', unknown>).default;
 
-      if (!isSnapshotValid(data)) {
+      if (!isSnapshotValid(snapshot)) {
         return Promise.reject(new Error(`File "${path}" does not contain correct snapshot definition.`));
       }
 
-      return { path, data };
+      return snapshot satisfies Snapshot;
     })
   );
 };

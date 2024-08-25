@@ -12,9 +12,13 @@ export const usePlayerTicker = () => {
   const { playerSpeed } = usePlayerSpeed();
   const { playerState, pause } = usePlayerControls();
   const { currentSnapshot } = useCurrentSnapshot();
-  const { min, max } = getSnapshotTimespan(currentSnapshot?.data || {});
+  const { min, max } = getSnapshotTimespan(currentSnapshot);
 
   useEffect(() => {
+    if (!currentSnapshot) {
+      return;
+    }
+
     let animationFrame: number;
 
     const render = (tick: number) => {
@@ -41,5 +45,5 @@ export const usePlayerTicker = () => {
     return () => {
       cancelAnimationFrame(animationFrame);
     };
-  }, [max, min, pause, playerSpeed, playerState, setTimestamp]);
+  }, [currentSnapshot, max, min, pause, playerSpeed, playerState, setTimestamp]);
 };

@@ -1,12 +1,13 @@
 import { useAtom } from 'jotai';
 import { useAvailableSnapshots } from './use-available-snapshots';
-import { currentSnapshotPathAtom } from '@/lib/state';
+import { currentSnapshotNameAtom } from '@/lib/state';
+import { Snapshot } from '@/lib/validate-snapshot';
 
 export const useCurrentSnapshot = () => {
-  const [currentPath, setCurrentPath] = useAtom(currentSnapshotPathAtom);
-  const { snapshotsByPath } = useAvailableSnapshots();
+  const [currentName, setCurrentName] = useAtom(currentSnapshotNameAtom);
+  const { snapshotsByName } = useAvailableSnapshots();
 
-  const currentSnapshot = snapshotsByPath[currentPath || ''] as (typeof snapshotsByPath)[string] | undefined;
+  const currentSnapshot = snapshotsByName[currentName] as Snapshot | undefined;
 
-  return { currentPath, setCurrentPath, currentSnapshot };
+  return { currentName, setCurrentName, currentSnapshot };
 };

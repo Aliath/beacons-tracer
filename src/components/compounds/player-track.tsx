@@ -17,10 +17,8 @@ export function PlayerTrack() {
   const { currentSnapshot } = useCurrentSnapshot();
   const stateToRestore = useRef(playerState);
 
-  const snapshotTimestamp = getSnapshotTimespan(currentSnapshot?.data || {});
-
-  const min = snapshotTimestamp.min;
-  const max = snapshotTimestamp.max;
+  const { min, max } = getSnapshotTimespan(currentSnapshot);
+  const isTimeDefined = !(min === 0 && max === 0);
 
   return (
     <div className="flex flex-col gap-4 p-4">
@@ -49,7 +47,7 @@ export function PlayerTrack() {
           {playerState === 'playing' ? <PauseIcon className="w-3/4 h-3/4" /> : <PlayIcon className="w-3/4 h-3/4" />}
         </Button>
         <div>
-          {min === 0 || max === 0
+          {!isTimeDefined
             ? '--:--:-- -- / --:--:-- --'
             : `${format(simulationTime, TIME_FORMAT)} / ${format(max || Date.now(), TIME_FORMAT)}`}
         </div>

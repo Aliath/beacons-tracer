@@ -17,7 +17,7 @@ export const getTimestampIndex = <T extends { timestamp: number }>(items: T[], c
   const { timestamp: rightTimestamp } = items.at(right)!;
 
   if (left === right) {
-    return leftTimestamp;
+    return left;
   }
 
   const timestampsSpan = rightTimestamp - leftTimestamp;

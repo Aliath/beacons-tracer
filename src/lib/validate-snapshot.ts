@@ -1,27 +1,22 @@
-import { TraceItem } from '@/types/common';
+import { z } from 'zod';
 
-const isObject = (data: unknown): data is Record<string, unknown> => !!data && typeof data === 'object';
+const traceItemShape = z.object({
+  timestamp: z.number().int().min(0),
+  x: z.number(),
+  y: z.number(),
+});
 
-export const isSnapshotValid = (data: unknown): data is Record<string, TraceItem[]> => {
-  if (!isObject(data)) {
-    return false;
-  }
+const snapshotShape = z.object({
+  name: z.string(),
+  group: z.string().optional(),
+  assets: z.record(z.string(), z.array(traceItemShape)),
+});
 
-  return Object.values(data).every((assetTraces) => {
-    if (!Array.isArray(assetTraces)) {
-      return false;
-    }
+export type TraceItem = z.infer<typeof traceItemShape>;
+export type Snapshot = z.infer<typeof snapshotShape>;
 
-    const REQUIRED_FIELDS = { x: 'number', y: 'number', timestamp: 'number' };
+export const isSnapshotValid = (data: unknown): data is Snapshot => {
+  const { success } = snapshotShape.safeParse(data);
 
-    return assetTraces.every((item) => {
-      if (!isObject(item)) {
-        return false;
-      }
-
-      return Object.entries(REQUIRED_FIELDS).every(
-        ([requiredKey, requiredType]) => requiredKey in item && typeof item[requiredKey] === requiredType
-      );
-    });
-  });
+  return success;
 };

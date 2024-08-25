@@ -1,11 +1,11 @@
-// import { Intro } from './components/compounds/intro';
 import { TracePlayer } from '@/components/compounds/trace-player';
+import { DataLoader } from '@/components/operational/data-loader';
+import { Loader } from '@/components/ui/loader';
 
 export function App() {
   return (
-    <>
-      {/* <Intro /> */}
+    <DataLoader loader={<Loader />}>
       <TracePlayer />
-    </>
+    </DataLoader>
   );
 }

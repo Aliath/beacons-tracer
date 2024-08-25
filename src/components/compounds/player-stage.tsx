@@ -71,7 +71,7 @@ export function PlayerStage({ children }: { children: React.ReactNode }) {
                 x: event.evt.offsetX - shiftX,
                 y: event.evt.offsetY - shiftY,
               }),
-              timestamp: performance.now(),
+              timestamp: Date.now(),
             });
 
             // @ts-expect-error This is  temporary trick, won't stay forever.
