@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
-import { isSnapshotValid } from '@/lib/validate-snapshot';
-import { TraceItem } from '@/types/common';
+import { isSnapshotValid, TraceItem } from '@/lib/validate-snapshot';
 
 const TICK_TIME_IN_MS = 1000 / 30;
 
@@ -57,7 +56,7 @@ if (!filePath) {
 const data = await readAndValidateData(filePath);
 
 const output = Object.fromEntries(
-  Object.entries(data).map(([assetIdentifier, assetTraces]) => {
+  Object.entries(data.assets).map(([assetIdentifier, assetTraces]) => {
     const ticks = createTicks(assetTraces);
 
     const tweakedTraces = ticks.map(({ timestamp }) => ({
