@@ -6,7 +6,7 @@ import { getAvailableSnapshots } from '@/lib/get-available-snapshots';
 import { availableSnapshotsAtom, currentSnapshotNameAtom } from '@/lib/state';
 
 const MIN_LOADING_TIME = 500;
-const TOTAL_LOADERS = 3;
+const TOTAL_LOADERS = 2;
 
 export const useLoadData = () => {
   const [loadersReady, setLoadersReady] = useState(0);
@@ -22,12 +22,6 @@ export const useLoadData = () => {
     return () => {
       clearTimeout(timerId);
     };
-  });
-
-  useRunOnce(() => {
-    document.fonts.ready.then(() => {
-      setLoadersReady((value) => value + 1);
-    });
   });
 
   // load sample snapshots

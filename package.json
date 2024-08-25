@@ -14,7 +14,6 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.0.20",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-icons": "^1.3.0",
